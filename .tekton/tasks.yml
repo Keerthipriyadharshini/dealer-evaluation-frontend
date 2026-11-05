@@ -2,12 +2,13 @@
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: cleanup
+  name: run-unit-tests
 spec:
   steps:
-    - name: remove-files
-      image: alpine:3.20
+    - name: jest-test
+      image: node:20
+      workingDir: /workspace/source
       script: |
         #!/bin/sh
-        echo "Cleaning workspace"
-        rm -rf /workspace/source/*
+        npm install
+        npx jest --ci --runInBand
